@@ -1,38 +1,22 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-# 🚀 Instância da aplicação FastAPI
-app = FastAPI(
-    title="ChatBot Inteligente - IA",
-    description="API de Chat Simples com FastAPI",
-    version="1.0.0"
-)
+app = FastAPI()
 
-# ✅ Configuração de CORS (permite requisições externas, como do frontend)
+# 🚀 Habilitar CORS para aceitar requisições do frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 🔥 Em produção, troque por ['https://seusite.com']
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ✅ Modelo da requisição
-class Message(BaseModel):
-    message: str
-
-# ✅ Rota de status (GET)
-@app.get("/")
-def read_root():
-    return {"message": "🚀 API do ChatBot Inteligente está online e funcionando!"}
-
-# ✅ Endpoint principal do chatbot (POST)
+# ✅ Endpoint para o chatbot
 @app.post("/chat")
-def chat_endpoint(msg: Message):
-    user_message = msg.message.lower().strip()
+async def chat(message: dict):
+    user_message = message.get("message", "").lower().strip()
 
-    # 🔎 Respostas automáticas simples
     if any(greet in user_message for greet in ["oi", "olá", "opa", "eae"]):
         response = "👋 Olá! Como posso te ajudar hoje?"
 
@@ -40,12 +24,12 @@ def chat_endpoint(msg: Message):
         response = "🌤️ Aqui no servidor está sempre ensolarado! 😄"
 
     elif any(q in user_message for q in ["seu nome", "quem é você"]):
-        response = "🤖 Eu sou o ChatBot Inteligente, criado pelo desenvolvedor Natã!"
+        response = "🤖 Eu sou o ChatBot Inteligente, criado pelo Natã!"
 
     elif any(f in user_message for f in ["tchau", "até", "falou"]):
         response = "👋 Até mais! Foi um prazer conversar com você."
 
     else:
-        response = "❓ Desculpe, ainda estou aprendendo. Poderia reformular sua pergunta?"
+        response = "❓ Desculpe, ainda estou aprendendo. Pode reformular sua pergunta?"
 
     return {"response": response}

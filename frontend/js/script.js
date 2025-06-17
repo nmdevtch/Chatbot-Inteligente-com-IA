@@ -1,7 +1,7 @@
-// ✅ URL do backend (ajuste se necessário)
-const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
+// 🔗 URL do backend
+const API_URL = "http://localhost:8000/chat";
 
-// ✅ Função para adicionar mensagens no chat
+// 📨 Adiciona mensagem no chat
 function addMessage(message, sender) {
     const chatBox = document.getElementById('chat-box');
     const messageDiv = document.createElement('div');
@@ -11,16 +11,14 @@ function addMessage(message, sender) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ✅ Função para enviar mensagem para o backend
+// 🚀 Envia mensagem para o backend
 async function sendMessage() {
     const input = document.getElementById('user-input');
     const message = input.value.trim();
 
-    if (!message) return;  // Não envia mensagem vazia
+    if (!message) return;
 
-    // Adiciona a mensagem do usuário
     addMessage(message, 'user');
-
     input.value = '';
     input.disabled = true;
 
@@ -31,20 +29,16 @@ async function sendMessage() {
             body: JSON.stringify({ message })
         });
 
-        if (!response.ok) {
-            throw new Error(`Erro na conexão: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Erro na conexão: ${response.status}`);
 
         const data = await response.json();
-
         if (data.response) {
             addMessage(data.response, 'bot');
         } else {
             addMessage('🤖 Sem resposta do servidor.', 'bot');
         }
-
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error('Erro:', error);
         addMessage('⚠️ Erro ao conectar com o servidor.', 'bot');
     } finally {
         input.disabled = false;
@@ -52,7 +46,7 @@ async function sendMessage() {
     }
 }
 
-// ✅ Envia mensagem ao apertar "Enter"
+// ⌨️ Enter envia mensagem
 document.getElementById('user-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         sendMessage();
