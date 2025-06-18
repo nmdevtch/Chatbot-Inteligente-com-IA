@@ -1,54 +1,72 @@
-// 🔗 URL do backend
-const API_URL = "http://localhost:8000/chat";
+const API_URL = "https://chatbot-inteligente-com-ia.onrender.com/lead";
 
-// 📨 Adiciona mensagem no chat
+const chatBox = document.getElementById('chat-box');
+const input = document.getElementById('user-input');
+
+const perguntas = [
+    "Olá! Seja bem-vindo. Me informe seu nome para começarmos.",
+    "Qual seu telefone?",
+    "Qual sua idade?",
+    "Qual seu e-mail?",
+    "De qual cidade você é?"
+];
+
+let respostas = [];
+let etapa = 0;
+
 function addMessage(message, sender) {
-    const chatBox = document.getElementById('chat-box');
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', sender);
-    messageDiv.innerText = message;
-    chatBox.appendChild(messageDiv);
+    const div = document.createElement('div');
+    div.className = `message ${sender}`;
+    div.innerText = message;
+    chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// 🚀 Envia mensagem para o backend
-async function sendMessage() {
-    const input = document.getElementById('user-input');
-    const message = input.value.trim();
+function sendMessage() {
+    const msg = input.value.trim();
+    if (!msg) return;
 
-    if (!message) return;
-
-    addMessage(message, 'user');
+    addMessage(msg, 'user');
+    respostas.push(msg);
     input.value = '';
-    input.disabled = true;
 
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
-        });
+    etapa++;
 
-        if (!response.ok) throw new Error(`Erro na conexão: ${response.status}`);
-
-        const data = await response.json();
-        if (data.response) {
-            addMessage(data.response, 'bot');
-        } else {
-            addMessage('🤖 Sem resposta do servidor.', 'bot');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        addMessage('⚠️ Erro ao conectar com o servidor.', 'bot');
-    } finally {
-        input.disabled = false;
-        input.focus();
+    if (etapa < perguntas.length) {
+        setTimeout(() => addMessage(perguntas[etapa], 'bot'), 500);
+    } else {
+        salvarLead();
     }
 }
 
-// ⌨️ Enter envia mensagem
-document.getElementById('user-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        sendMessage();
-    }
+function salvarLead() {
+    const [nome, telefone, idade, email, cidade] = respostas;
+
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, telefone, idade, email, cidade })
+    })
+    .then(res => res.json())
+    .then(() => {
+        addMessage('Perfeito! Clique no botão abaixo para falar conosco no WhatsApp.', 'bot');
+        const link = document.createElement('a');
+        link.href = 'https://wa.me/5541984842781';
+        link.target = '_blank';
+        link.innerText = '👉 Falar no WhatsApp';
+        link.className = 'whatsapp-link';
+        chatBox.appendChild(link);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(() => {
+        addMessage('⚠️ Erro ao salvar seus dados. Tente novamente mais tarde.', 'bot');
+    });
+}
+
+input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
 });
+
+window.onload = () => {
+    addMessage(perguntas[0], 'bot');
+};

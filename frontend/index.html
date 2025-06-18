@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Inteligente</title>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot de Leads</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div id="chat-box" aria-live="polite"></div>
-        <div class="input-area">
-            <input 
-                type="text" 
-                id="user-input" 
-                placeholder="Digite sua pergunta..." 
-                autocomplete="off"
-                aria-label="Campo de entrada para sua pergunta"
-            >
-            <button onclick="sendMessage()" aria-label="Enviar mensagem">Enviar</button>
-        </div>
+  <div class="chat-container">
+    <div id="chat-box"></div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Digite aqui..." autocomplete="off">
+      <button onclick="sendMessage()">Enviar</button>
     </div>
+  </div>
 
-    <script src="./js/script.js"></script>
+  <script src="./js/script.js"></script>
 </body>
 </html>

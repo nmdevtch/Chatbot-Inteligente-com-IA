@@ -1,35 +1,61 @@
-from fastapi import FastAPI
+# main.py
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine, Base
+from models import Lead
+from pydantic import BaseModel
+from datetime import datetime
+
+# Cria as tabelas no banco
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# 🚀 Habilitar CORS para aceitar requisições do frontend
+# Permite qualquer origem (frontend externo)
+origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ✅ Endpoint para o chatbot
-@app.post("/chat")
-async def chat(message: dict):
-    user_message = message.get("message", "").lower().strip()
+# Rota raiz para testar se está funcionando
+@app.get("/")
+def read_root():
+    return {"message": "API do Chatbot Inteligente está online! Vá para /docs para acessar a documentação."}
 
-    if any(greet in user_message for greet in ["oi", "olá", "opa", "eae"]):
-        response = "👋 Olá! Como posso te ajudar hoje?"
+# Conexão com banco
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-    elif "tempo" in user_message:
-        response = "🌤️ Aqui no servidor está sempre ensolarado! 😄"
+# Schema do lead (entrada de dados)
+class LeadCreate(BaseModel):
+    nome: str
+    telefone: str
+    idade: str
+    email: str
+    cidade: str
 
-    elif any(q in user_message for q in ["seu nome", "quem é você"]):
-        response = "🤖 Eu sou o ChatBot Inteligente, criado pelo Natã!"
-
-    elif any(f in user_message for f in ["tchau", "até", "falou"]):
-        response = "👋 Até mais! Foi um prazer conversar com você."
-
-    else:
-        response = "❓ Desculpe, ainda estou aprendendo. Pode reformular sua pergunta?"
-
-    return {"response": response}
+# Endpoint para receber dados
+@app.post("/lead")
+def create_lead(lead: LeadCreate, db: Session = Depends(get_db)):
+    db_lead = Lead(
+        nome=lead.nome,
+        telefone=lead.telefone,
+        idade=lead.idade,
+        email=lead.email,
+        cidade=lead.cidade,
+        datahora=datetime.utcnow()
+    )
+    db.add(db_lead)
+    db.commit()
+    db.refresh(db_lead)
+    return {"message": "Lead salvo com sucesso!"}
