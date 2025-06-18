@@ -1,18 +1,18 @@
-# main.py
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base
 from models import Lead
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List
 
 # Cria as tabelas no banco
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Permite qualquer origem (frontend externo)
+# Permite qualquer origem (libera CORS)
 origins = ["*"]
 
 app.add_middleware(
@@ -23,12 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Rota raiz para testar se está funcionando
-@app.get("/")
-def read_root():
-    return {"message": "API do Chatbot Inteligente está online! Vá para /docs para acessar a documentação."}
+# 🔐 TOKEN simples (altere para sua senha segura)
+API_TOKEN = "admin123"
 
-# Conexão com banco
+# ✅ Conexão com o banco
 def get_db():
     db = SessionLocal()
     try:
@@ -36,7 +34,7 @@ def get_db():
     finally:
         db.close()
 
-# Schema do lead (entrada de dados)
+# ✅ Schema para entrada de dados (POST)
 class LeadCreate(BaseModel):
     nome: str
     telefone: str
@@ -44,7 +42,27 @@ class LeadCreate(BaseModel):
     email: str
     cidade: str
 
-# Endpoint para receber dados
+# ✅ Schema para resposta (GET)
+class LeadResponse(BaseModel):
+    id: int
+    nome: str
+    telefone: str
+    idade: str
+    email: str
+    cidade: str
+    datahora: datetime
+
+    class Config:
+        orm_mode = True
+
+# 🏠 Rota inicial para teste
+@app.get("/")
+def read_root():
+    return {
+        "message": "API do Chatbot Inteligente está online!"
+    }
+
+# 🚀 Endpoint para receber dados (Cadastrar lead)
 @app.post("/lead")
 def create_lead(lead: LeadCreate, db: Session = Depends(get_db)):
     db_lead = Lead(
@@ -59,3 +77,13 @@ def create_lead(lead: LeadCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_lead)
     return {"message": "Lead salvo com sucesso!"}
+
+# 📊 Endpoint para listar os leads (Dashboard)
+@app.get("/leads", response_model=List[LeadResponse])
+def get_leads(authorization: str = Header(None), db: Session = Depends(get_db)):
+    # 🔐 Verifica o token
+    if authorization != API_TOKEN:
+        raise HTTPException(status_code=401, detail="Não autorizado")
+    # 🔍 Busca no banco
+    leads = db.query(Lead).order_by(Lead.datahora.desc()).all()
+    return leads
