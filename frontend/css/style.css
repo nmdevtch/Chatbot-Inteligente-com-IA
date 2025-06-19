@@ -1,141 +1,296 @@
-/* Estilo Global */
+/* ====== Reset ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: #fff;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
 
-/* Container do Chat */
+/* ====== Header ====== */
+header {
+  width: 100%;
+  padding: 20px 40px;
+  background-color: #1f1f1f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.logo span {
+  color: #00ffae;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav a::after {
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: #00ffae;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #00ffae;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* ====== Hero ====== */
+.hero {
+  height: 100vh;
+  background: linear-gradient(120deg, #00ffae, #006eff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn {
+  background-color: #00ffae;
+  color: #121212;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #00d190;
+}
+
+/* ====== Chatbot ====== */
+#chat {
+  padding: 100px 20px;
+  background-color: #1c1c1c;
+  min-height: 100vh;
+}
+
+#chat h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .chat-container {
-    width: 400px;
-    background: #1e1e1e;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  max-width: 400px;
+  background: #2c2c2c;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,255,174,0.2);
 }
 
-/* Caixa de Chat */
 #chat-box {
-    height: 400px;
-    overflow-y: auto;
-    border: 1px solid #333;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #191919;
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #121212;
 }
 
-/* Mensagens */
 .message {
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    max-width: 80%;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .message.bot {
-    background: #333;
-    align-self: flex-start;
+  background: #444;
+  align-self: flex-start;
 }
 
 .message.user {
-    background: #007bff;
-    color: white;
-    align-self: flex-end;
+  background: #00ffae;
+  color: #121212;
+  align-self: flex-end;
 }
 
-/* Área de Input */
 .input-area {
-    display: flex;
+  display: flex;
+  gap: 8px;
 }
 
-input {
-    flex: 1;
-    padding: 10px;
-    background: #222;
-    color: #fff;
-    border: 1px solid #444;
-    border-radius: 5px;
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #333;
+  color: white;
 }
 
-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
+.input-area button {
+  background: #00ffae;
+  border: none;
+  color: #121212;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
-    background: #005fcc;
+.input-area button:hover {
+  background: #00d190;
 }
 
 .whatsapp-link {
-    display: block;
-    margin-top: 10px;
-    background: #25d366;
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
+  display: block;
+  background: #25d366;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 10px;
 }
 
-/* Dashboard */
-.container {
-    width: 90%;
-    max-width: 1000px;
-    background: #1e1e1e;
+/* ====== Footer ====== */
+footer {
+  text-align: center;
+  background-color: #1f1f1f;
+  padding: 20px;
+  color: #999;
+}
+
+/* ====== Modal Login ====== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #222;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0,255,174,0.3);
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.modal-content input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #00ffae;
+  color: #121212;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #00d190;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: white;
+}
+
+/* ====== Responsivo ====== */
+@media(max-width: 768px) {
+  nav {
+    display: none;
+    flex-direction: column;
+    background-color: #1f1f1f;
+    position: absolute;
+    top: 70px;
+    right: 20px;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
+    border-radius: 8px;
+    gap: 15px;
+  }
 
-h1 {
-    text-align: center;
-}
-
-.token {
+  nav.show {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
+  }
 
-.token input {
-    padding: 10px;
-    width: 300px;
-    background: #222;
-    color: #fff;
-    border: 1px solid #444;
-    border-radius: 5px 0 0 5px;
-}
+  .menu-toggle {
+    display: block;
+    color: white;
+  }
 
-.token button {
-    border-radius: 0 5px 5px 0;
-}
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #191919;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #444;
-    text-align: center;
-}
-
-th {
-    background: #333;
-}
-
-tbody tr:hover {
-    background-color: #2a2a2a;
+  .hero-content p {
+    font-size: 1rem;
+  }
 }

@@ -1,7 +1,30 @@
-// URL do backend
+// Backend API
 const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
 
-// ---------------- CHAT ---------------- //
+// ========= Menu Hambúrguer =========
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('nav-menu');
+menuToggle.onclick = () => navMenu.classList.toggle('show');
+
+// ========= Modal Login =========
+const modal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const closeBtn = document.querySelector('.close');
+
+loginBtn.onclick = () => modal.style.display = 'block';
+closeBtn.onclick = () => modal.style.display = 'none';
+window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+
+function acessarDashboard() {
+    const token = document.getElementById('tokenInput').value;
+    if (token === 'Admin123') {
+        window.location.href = 'dashboard.html';
+    } else {
+        alert('Token inválido!');
+    }
+}
+
+// ========= Chatbot =========
 if (document.getElementById('chat-box')) {
     const chatBox = document.getElementById('chat-box');
     const input = document.getElementById('user-input');
@@ -73,34 +96,4 @@ if (document.getElementById('chat-box')) {
     window.onload = () => {
         addMessage(perguntas[0], 'bot');
     };
-}
-
-// ---------------- DASHBOARD ---------------- //
-async function buscarLeads() {
-    const token = document.getElementById('tokenInput').value;
-    if (token !== 'admin123') {
-        alert('Token inválido!');
-        return;
-    }
-
-    const response = await fetch(`${API_URL}/leads`);
-    const data = await response.json();
-
-    const tbody = document.querySelector('#leadsTable tbody');
-    tbody.innerHTML = '';
-
-    data.forEach(lead => {
-        const row = `
-            <tr>
-                <td>${lead.id}</td>
-                <td>${lead.nome}</td>
-                <td>${lead.telefone}</td>
-                <td>${lead.idade}</td>
-                <td>${lead.email}</td>
-                <td>${lead.cidade}</td>
-                <td>${new Date(lead.datahora).toLocaleString()}</td>
-            </tr>
-        `;
-        tbody.innerHTML += row;
-    });
 }
