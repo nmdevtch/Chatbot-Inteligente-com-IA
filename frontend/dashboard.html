@@ -11,7 +11,9 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <h2>Chatbot-Inteligente<br><span>com IA</span></h2>
+        <div class="logo">
+            <h2>Chatbot-Inteligente<br><span>com IA</span></h2>
+        </div>
         <nav>
             <a href="#">📊 Dashboard</a>
             <a href="#">📥 Leads</a>
@@ -22,6 +24,7 @@
 
     <!-- Main -->
     <main class="main-content">
+        <!-- Header -->
         <header class="header">
             <h1>Dashboard de Leads</h1>
             <button class="logout-btn">Sair</button>
@@ -29,21 +32,24 @@
 
         <!-- Gráfico -->
         <section class="graph">
-            <canvas id="leadsChart"></canvas>
+            <h2>Relatório de Leads</h2>
+            <div class="chart-container">
+                <canvas id="leadsChart"></canvas>
+            </div>
         </section>
 
         <!-- Cards -->
         <section class="cards">
             <div class="card">
-                <h3>Chat/SMS</h3>
+                <h3>Chat / SMS Leads</h3>
                 <p id="chatCount">0</p>
             </div>
             <div class="card">
-                <h3>Telefone</h3>
+                <h3>Telefone Leads</h3>
                 <p id="phoneCount">0</p>
             </div>
             <div class="card">
-                <h3>Formulário</h3>
+                <h3>Formulário Leads</h3>
                 <p id="formCount">0</p>
             </div>
         </section>
@@ -51,22 +57,24 @@
         <!-- Tabela -->
         <section class="table-section">
             <h2>Leads Cadastrados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Idade</th>
-                        <th>Email</th>
-                        <th>Cidade</th>
-                        <th>Data/Hora</th>
-                    </tr>
-                </thead>
-                <tbody id="leadsTableBody">
-                    <!-- Dados dinâmicos -->
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Idade</th>
+                            <th>Email</th>
+                            <th>Cidade</th>
+                            <th>Data/Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody">
+                        <!-- Dados dinâmicos inseridos via JS -->
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 
