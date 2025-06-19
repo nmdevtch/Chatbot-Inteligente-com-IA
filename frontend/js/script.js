@@ -25,35 +25,124 @@ window.onclick = function(event) {
     }
 };
 
-// ===== Acessar Dashboard =====
+// ===== Acessar Dashboard com Token =====
 function acessarDashboard() {
     const token = document.getElementById('tokenInput').value.trim();
 
-    if (token === "") {
+    if (token === '') {
         alert('Digite seu token!');
+        return;
+    }
+
+    if (token === 'admin123') { 
+        window.location.href = './dashboard.html';
     } else {
-        // Redireciona (ajuste o caminho se necessário)
-        window.location.href = "./dashboard.html";
+        alert('Token inválido!');
     }
 }
 
-// ===== Chatbot Simples =====
+// ===== Chatbot com Captação de Leads =====
+const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
+
 const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 
+const leadData = {
+    nome: '',
+    telefone: '',
+    idade: '',
+    email: '',
+    cidade: ''
+};
+
+const perguntas = [
+    "Qual seu nome completo?",
+    "Ótimo! Agora, informe seu telefone com DDD:",
+    "Perfeito. Qual sua idade?",
+    "Legal! Agora, digite seu email:",
+    "Por último, informe sua cidade:"
+];
+
+let etapa = 0;
+
+function startChat() {
+    appendMessage('bot', "Olá! Vamos fazer seu cadastro. 😊");
+    setTimeout(() => {
+        appendMessage('bot', perguntas[etapa]);
+    }, 600);
+}
+
 function sendMessage() {
     const message = userInput.value.trim();
-
     if (message === '') return;
 
     appendMessage('user', message);
     userInput.value = '';
 
-    // Resposta simulada
-    setTimeout(() => {
-        const botResponse = gerarResposta(message);
-        appendMessage('bot', botResponse);
-    }, 500);
+    processarEtapa(message);
+}
+
+function processarEtapa(message) {
+    switch (etapa) {
+        case 0:
+            leadData.nome = message;
+            break;
+        case 1:
+            leadData.telefone = message;
+            break;
+        case 2:
+            leadData.idade = message;
+            break;
+        case 3:
+            leadData.email = message;
+            break;
+        case 4:
+            leadData.cidade = message;
+            break;
+    }
+
+    etapa++;
+
+    if (etapa < perguntas.length) {
+        setTimeout(() => {
+            appendMessage('bot', perguntas[etapa]);
+        }, 500);
+    } else {
+        salvarLead();
+    }
+}
+
+function salvarLead() {
+    appendMessage('bot', "Perfeito! Salvando seus dados... 🔄");
+
+    fetch(`${API_URL}/lead`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(leadData)
+    })
+    .then(response => {
+        if (response.ok) {
+            appendMessage('bot', "✅ Seus dados foram salvos com sucesso!");
+            gerarLinkWhatsApp();
+        } else {
+            appendMessage('bot', "❌ Erro ao salvar seus dados. Tente novamente mais tarde.");
+        }
+    })
+    .catch(() => {
+        appendMessage('bot', "❌ Erro ao conectar com o servidor.");
+    });
+}
+
+function gerarLinkWhatsApp() {
+    const numero = leadData.telefone.replace(/\D/g, '');
+    const mensagem = `Olá, me chamo ${leadData.nome} e acabei de me cadastrar no Lead Master!`;
+
+    const link = `https://wa.me/5541984842781`;
+
+    appendMessage('bot', `Clique no link para falar conosco no WhatsApp:`);
+    appendMessage('bot', link);
 }
 
 function appendMessage(sender, text) {
@@ -64,27 +153,12 @@ function appendMessage(sender, text) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function gerarResposta(msg) {
-    const msgLower = msg.toLowerCase();
-
-    if (msgLower.includes('oi') || msgLower.includes('olá')) {
-        return 'Olá! Como posso te ajudar?';
-    }
-    if (msgLower.includes('serviços')) {
-        return 'Oferecemos captação de leads, dashboard inteligente e integração com WhatsApp.';
-    }
-    if (msgLower.includes('whatsapp')) {
-        return 'Sim! Nosso chatbot pode ser integrado ao seu WhatsApp para automação.';
-    }
-    if (msgLower.includes('dashboard')) {
-        return 'Nosso dashboard permite visualizar e gerenciar seus leads em tempo real.';
-    }
-    return 'Desculpe, não entendi. Pode reformular sua pergunta?';
-}
-
 // ===== Enter para enviar no chat =====
 userInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         sendMessage();
     }
 });
+
+// ===== Inicia Conversa =====
+startChat();
