@@ -4,34 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lead Master | Landing Page</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
-  <!-- ===== Menu ===== -->
+  <!-- ====== Header / Menu ====== -->
   <header>
-    <div class="logo">Lead<span>Master</span></div>
+    <div class="logo">Chatbot<span>Inteligente</span></div>
     <nav id="nav-menu">
       <a href="#home">Início</a>
       <a href="#servicos">Serviços</a>
-      <a href="#contato">Contato</a>
+      <a href="#chat">Chatbot</a>
       <a href="#" id="loginBtn">Login</a>
     </nav>
     <div class="menu-toggle" id="menuToggle">&#9776;</div>
   </header>
 
-  <!-- ===== Hero ===== -->
+  <!-- ====== Hero ====== -->
   <section id="home" class="hero">
     <div class="hero-content">
-      <h1>Transforme Conversas em Clientes</h1>
-      <p>Automatize sua captação de leads com nosso chatbot inteligente integrado.</p>
-      <a href="#chat" class="btn">Começar Agora</a>
+      <h1>Automatize Conversas e Conquiste Mais Clientes</h1>
+      <p>Transforme seu atendimento com nosso Chatbot Inteligente integrado a um dashboard de leads.</p>
+      <a href="#chat" class="btn">Testar Chatbot</a>
     </div>
   </section>
 
-  <!-- ===== Chatbot ===== -->
+  <!-- ====== Serviços ====== -->
+  <section id="servicos" class="servicos">
+    <h2>Nossos Serviços</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Captação de Leads</h3>
+        <p>Automatize a coleta de informações dos seus clientes através de conversas inteligentes.</p>
+      </div>
+      <div class="card">
+        <h3>Dashboard Inteligente</h3>
+        <p>Visualize e gerencie seus leads em tempo real com gráficos e tabelas organizadas.</p>
+      </div>
+      <div class="card">
+        <h3>Integração WhatsApp</h3>
+        <p>Conecte seu chatbot diretamente com seu WhatsApp para conversas rápidas e eficientes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Chatbot ====== -->
   <section id="chat">
-    <h2>Fale com nosso Assistente</h2>
+    <h2>Converse com nosso Assistente</h2>
     <div class="chat-container">
       <div id="chat-box"></div>
       <div class="input-area">
@@ -41,12 +60,12 @@
     </div>
   </section>
 
-  <!-- ===== Footer ===== -->
+  <!-- ====== Footer ====== -->
   <footer>
-    <p>© 2025 LeadMaster - Todos os direitos reservados.</p>
+    <p>© 2025 Lead Master — Todos os direitos reservados.</p>
   </footer>
 
-  <!-- ===== Modal Login ===== -->
+  <!-- ====== Modal Login ====== -->
   <div id="loginModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -56,6 +75,6 @@
     </div>
   </div>
 
-  <script src="js/script.js"></script>
+  <script src="./js/script.js"></script>
 </body>
 </html>
