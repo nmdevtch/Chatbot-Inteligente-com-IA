@@ -5,266 +5,187 @@
     box-sizing: border-box;
 }
 
+/* Corpo */
 body {
-    background-color: #121212;
-    color: #f1f1f1;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-header {
-    background-color: #1e1e1e;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0f0f0f;
+    color: #eee;
     display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 230px;
+    background-color: #121212;
+    height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    padding: 15px 50px;
     position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
-header .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #00bfff;
+.sidebar h2 {
+    color: #00ffa6;
+    font-size: 20px;
+    margin-bottom: 40px;
+    line-height: 1.3;
 }
 
-header .logo span {
+.sidebar h2 span {
     color: #fff;
 }
 
-header nav {
+.sidebar nav {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-header nav a {
-    color: #f1f1f1;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s;
-}
-
-header nav a:hover {
-    color: #00bfff;
-}
-
-header .menu-toggle {
-    display: none;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-header .btn-login {
-    background-color: #00bfff;
-    border: none;
-    color: #121212;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-header .btn-login:hover {
-    background-color: #008fcc;
-}
-
-/* Hero */
-.hero {
-    background: linear-gradient(135deg, #1e1e1e, #121212);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-.hero-content p {
+.sidebar nav a {
     color: #ccc;
-    margin-bottom: 30px;
-    font-size: 1.2rem;
-}
-
-.btn {
-    background-color: #00bfff;
-    color: #121212;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: 0.3s;
 }
 
-.btn:hover {
-    background-color: #008fcc;
+.sidebar nav a:hover {
+    color: #00ffa6;
 }
 
-.btn.whatsapp {
-    background-color: #25d366;
+/* Main Content */
+.main-content {
+    margin-left: 230px;
+    width: calc(100% - 230px);
+    padding: 20px 30px;
 }
 
-.btn.whatsapp:hover {
-    background-color: #1da851;
-}
-
-/* Dashboard */
-.dashboard-section {
-    padding: 100px 20px 50px;
-    background-color: #1e1e1e;
-}
-
-.container {
-    max-width: 1200px;
-    margin: auto;
-}
-
-h2 {
-    text-align: center;
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 30px;
 }
 
-.token {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.token input {
-    padding: 10px;
-    border-radius: 5px;
+.logout-btn {
+    background: #00ffa6;
     border: none;
-    width: 300px;
-}
-
-.token button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #00bfff;
-    color: #121212;
-    border-radius: 5px;
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-.table-wrapper {
-    overflow-x: auto;
+.logout-btn:hover {
+    background: #00cc86;
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #1c1c1c;
+    flex: 1;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 28px;
+    color: #00ffa6;
+}
+
+/* Gráfico */
+.graph {
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+/* Tabela */
+.table-section {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.table-section h2 {
+    margin-bottom: 15px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #121212;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #333;
-    text-align: center;
-}
-
-th {
+thead {
     background-color: #222;
 }
 
-tr:hover {
-    background-color: #1a1a1a;
+thead th {
+    padding: 12px;
+    color: #00ffa6;
 }
 
-/* Contato */
-.contato-section {
-    padding: 80px 20px;
-    text-align: center;
-    background-color: #121212;
+tbody tr {
+    border-bottom: 1px solid #333;
 }
 
-.contato-section h2 {
-    margin-bottom: 20px;
-}
-
-/* Footer */
-footer {
-    background-color: #1e1e1e;
-    padding: 15px;
-    text-align: center;
-    color: #ccc;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.9);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-}
-
-.modal-content input {
-    width: 100%;
+tbody td {
     padding: 10px;
-    margin: 15px 0;
-    border: none;
-    border-radius: 6px;
+    color: #ddd;
 }
 
-.modal-content button {
-    background-color: #00bfff;
-    border: none;
-    padding: 10px 20px;
-    color: #121212;
-    border-radius: 5px;
-    cursor: pointer;
+tbody tr:hover {
+    background-color: #222;
 }
 
-.modal-content .close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: #fff;
-    font-size: 2rem;
-    cursor: pointer;
+/* Scroll */
+table {
+    overflow-x: auto;
 }
 
-/* Menu Responsivo */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #222;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-    header nav {
-        display: none;
+    .cards {
         flex-direction: column;
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        background-color: #1e1e1e;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.7);
     }
-
-    header nav.active {
-        display: flex;
+    .main-content {
+        margin-left: 0;
+        width: 100%;
     }
-
-    header .menu-toggle {
-        display: block;
+    .sidebar {
+        display: none;
     }
 }
