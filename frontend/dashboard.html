@@ -1,70 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard de Leads</title>
-  <style>
-    body { font-family: Arial; background: #f9f9f9; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; background: white; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-    th { background: #007bff; color: white; }
-    input { padding: 8px; margin-bottom: 15px; width: 300px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Leads</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Dashboard de Leads</h1>
-  <input type="text" id="search" placeholder="Buscar por nome, cidade, email ou telefone" />
-  <table id="leadTable">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Telefone</th>
-        <th>Idade</th>
-        <th>Email</th>
-        <th>Cidade</th>
-        <th>Data/Hora</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
-  <script>
-    const API_URL = "https://chatbot-inteligente-com-ia.onrender.com/leads";
-    const TOKEN = "admin123"; // Se usar autenticação
+    <div class="container">
+        <h1>Dashboard de Leads</h1>
 
-    async function fetchLeads() {
-      const response = await fetch(API_URL, {
-        headers: { "Authorization": TOKEN }
-      });
-      const leads = await response.json();
-      const tbody = document.querySelector("#leadTable tbody");
-      tbody.innerHTML = "";
+        <div class="token">
+            <input type="password" id="tokenInput" placeholder="Digite seu token">
+            <button onclick="buscarLeads()">Buscar Leads</button>
+        </div>
 
-      leads.forEach(lead => {
-        const row = `
-          <tr>
-            <td>${lead.nome}</td>
-            <td>${lead.telefone}</td>
-            <td>${lead.idade}</td>
-            <td>${lead.email}</td>
-            <td>${lead.cidade}</td>
-            <td>${new Date(lead.datahora).toLocaleString()}</td>
-          </tr>
-        `;
-        tbody.innerHTML += row;
-      });
-    }
+        <table id="leadsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Idade</th>
+                    <th>Email</th>
+                    <th>Cidade</th>
+                    <th>Data/Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados irão aqui -->
+            </tbody>
+        </table>
+    </div>
 
-    document.getElementById('search').addEventListener('input', function() {
-      const value = this.value.toLowerCase();
-      const rows = document.querySelectorAll('#leadTable tbody tr');
-      rows.forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-      });
-    });
-
-    fetchLeads();
-  </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
