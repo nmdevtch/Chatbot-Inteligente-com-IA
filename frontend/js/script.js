@@ -34,7 +34,7 @@ function acessarDashboard() {
         return;
     }
 
-    if (token === 'admin123') { 
+    if (token === 'Admin123') { 
         window.location.href = './dashboard.html';
     } else {
         alert('Token inválido!');

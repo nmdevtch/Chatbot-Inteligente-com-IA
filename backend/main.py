@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 # 🔐 TOKEN simples (altere para sua senha segura)
-API_TOKEN = "admin123"
+API_TOKEN = "Admin123"
 
 # ✅ Conexão com o banco
 def get_db():
