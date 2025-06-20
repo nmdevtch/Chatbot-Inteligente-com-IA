@@ -1,13 +1,13 @@
-// ===== Configurações Gerais =====
+// ======= CONFIGURAÇÕES =======
 const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
 const TOKEN = "admin123";
 
-// Detecta se elementos existem na página
+// Detecta página
 const isDashboard = document.querySelector('.main-content') !== null;
 const isLandingPage = document.querySelector('.hero') !== null;
 
 // ==================================================
-// ======= FUNCIONALIDADES DA LANDING PAGE =========
+// ========= FUNCIONALIDADES DA LANDING PAGE =========
 // ==================================================
 if (isLandingPage) {
     // ===== Menu Mobile =====
@@ -23,36 +23,31 @@ if (isLandingPage) {
     const loginBtn = document.getElementById('loginBtn');
     const closeBtn = document.getElementsByClassName('close')[0];
 
-    loginBtn.onclick = function() {
-        loginModal.style.display = 'block';
-    };
+    loginBtn.onclick = () => loginModal.style.display = 'block';
+    closeBtn.onclick = () => loginModal.style.display = 'none';
 
-    closeBtn.onclick = function() {
-        loginModal.style.display = 'none';
-    };
-
-    window.onclick = function(event) {
-        if (event.target === loginModal) {
+    window.onclick = (e) => {
+        if (e.target === loginModal) {
             loginModal.style.display = 'none';
         }
     };
 
     // ===== Acessar Dashboard com Token =====
-    function acessarDashboard() {
+    window.acessarDashboard = function () {
         const token = document.getElementById('tokenInput').value.trim();
 
-        if (token === 'Admin123') {
+        if (token === '') {
             alert('Digite seu token!');
             return;
         }
 
         if (token === TOKEN) {
-            localStorage.setItem('Admin123', token);
+            localStorage.setItem('token', token);
             window.location.href = './dashboard.html';
         } else {
             alert('Token inválido!');
         }
-    }
+    };
 
     // ===== Chatbot com Captação de Leads =====
     const chatBox = document.getElementById('chat-box');
@@ -78,12 +73,10 @@ if (isLandingPage) {
 
     function startChat() {
         appendMessage('bot', "Olá! Vamos fazer seu cadastro. 😊");
-        setTimeout(() => {
-            appendMessage('bot', perguntas[etapa]);
-        }, 600);
+        setTimeout(() => appendMessage('bot', perguntas[etapa]), 600);
     }
 
-    function sendMessage() {
+    window.sendMessage = function () {
         const message = userInput.value.trim();
         if (message === '') return;
 
@@ -91,7 +84,7 @@ if (isLandingPage) {
         userInput.value = '';
 
         processarEtapa(message);
-    }
+    };
 
     function processarEtapa(message) {
         switch (etapa) {
@@ -105,9 +98,7 @@ if (isLandingPage) {
         etapa++;
 
         if (etapa < perguntas.length) {
-            setTimeout(() => {
-                appendMessage('bot', perguntas[etapa]);
-            }, 500);
+            setTimeout(() => appendMessage('bot', perguntas[etapa]), 500);
         } else {
             salvarLead();
         }
@@ -121,39 +112,39 @@ if (isLandingPage) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(leadData)
         })
-        .then(response => {
-            if (response.ok) {
-                appendMessage('bot', "✅ Seus dados foram salvos com sucesso!");
-                gerarLinkWhatsApp();
-            } else {
-                appendMessage('bot', "❌ Erro ao salvar seus dados. Tente novamente mais tarde.");
-            }
-        })
-        .catch(() => {
-            appendMessage('bot', "❌ Erro ao conectar com o servidor.");
-        });
+            .then(response => {
+                if (response.ok) {
+                    appendMessage('bot', "✅ Seus dados foram salvos com sucesso!");
+                    gerarBotaoWhatsApp();
+                } else {
+                    appendMessage('bot', "❌ Erro ao salvar seus dados.");
+                }
+            })
+            .catch(() => {
+                appendMessage('bot', "❌ Erro ao conectar com o servidor.");
+            });
     }
 
-function gerarLinkWhatsApp() {
-    const numero = leadData.telefone.replace(/\D/g, '');
-    const mensagem = `Olá, me chamo ${leadData.nome} e acabei de me cadastrar no Lead Master!`;
-    const link = `https://wa.me/5541984842781?text=${encodeURIComponent(mensagem)}`;
+    function gerarBotaoWhatsApp() {
+        const numero = leadData.telefone.replace(/\D/g, '');
+        const mensagem = `Olá, me chamo ${leadData.nome} e acabei de me cadastrar no Lead Master!`;
+        const link = `https://wa.me/5541984842781?text=${encodeURIComponent(mensagem)}`;
 
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', 'bot');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', 'bot');
 
-    const botao = document.createElement('button');
-    botao.textContent = '💬 Falar no WhatsApp';
-    botao.classList.add('whatsapp-button');
+        const botao = document.createElement('button');
+        botao.textContent = '💬 Falar no WhatsApp';
+        botao.classList.add('whatsapp-button');
 
-    botao.onclick = () => {
-        window.open(link, '_blank');
-    };
+        botao.onclick = () => {
+            window.open(link, '_blank');
+        };
 
-    messageDiv.appendChild(botao);
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
+        messageDiv.appendChild(botao);
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
     function appendMessage(sender, text) {
         const messageDiv = document.createElement('div');
@@ -163,7 +154,7 @@ function gerarLinkWhatsApp() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    userInput.addEventListener('keypress', function(e) {
+    userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             sendMessage();
         }
@@ -173,13 +164,13 @@ function gerarLinkWhatsApp() {
 }
 
 // ==================================================
-// ========== FUNCIONALIDADES DO DASHBOARD =========
+// ========= FUNCIONALIDADES DO DASHBOARD ===========
 // ==================================================
 if (isDashboard) {
-    function logout() {
+    window.logout = function () {
         localStorage.removeItem('token');
         window.location.href = "./index.html";
-    }
+    };
 
     function buscarLeads() {
         const token = localStorage.getItem('token');
@@ -197,19 +188,19 @@ if (isDashboard) {
                 'Authorization': token
             }
         })
-        .then(res => {
-            if (!res.ok) throw new Error('Token inválido ou erro na requisição');
-            return res.json();
-        })
-        .then(leads => {
-            preencherTabela(leads);
-            atualizarCards(leads);
-            gerarGrafico(leads);
-        })
-        .catch(err => {
-            alert("Erro ao buscar leads: " + err.message);
-            console.error(err);
-        });
+            .then(res => {
+                if (!res.ok) throw new Error('Token inválido ou erro na requisição');
+                return res.json();
+            })
+            .then(leads => {
+                preencherTabela(leads);
+                atualizarCards(leads);
+                gerarGrafico(leads);
+            })
+            .catch(err => {
+                alert("Erro ao buscar leads: " + err.message);
+                console.error(err);
+            });
     }
 
     function preencherTabela(leads) {
@@ -232,13 +223,11 @@ if (isDashboard) {
     }
 
     function atualizarCards(leads) {
-        const totalChat = leads.length;
-        const totalTelefone = leads.filter(lead => lead.telefone).length;
-        const totalForm = leads.length;
+        const totalLeads = leads.length;
 
-        document.getElementById('chatCount').textContent = totalChat;
-        document.getElementById('phoneCount').textContent = totalTelefone;
-        document.getElementById('formCount').textContent = totalForm;
+        document.getElementById('chatCount').textContent = totalLeads;
+        document.getElementById('phoneCount').textContent = totalLeads;
+        document.getElementById('formCount').textContent = totalLeads;
     }
 
     function gerarGrafico(leads) {
