@@ -1,13 +1,13 @@
-// ======= CONFIGURAÇÕES =======
+// ===== Configurações Gerais =====
 const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
-const TOKEN = "Admin123";
+const TOKEN = "admin123";
 
-// Detecta página
+// Detecta se está na landing page ou dashboard
 const isDashboard = document.querySelector('.main-content') !== null;
 const isLandingPage = document.querySelector('.hero') !== null;
 
 // ==================================================
-// ========= FUNCIONALIDADES DA LANDING PAGE =========
+// ======= FUNCIONALIDADES DA LANDING PAGE =========
 // ==================================================
 if (isLandingPage) {
     // ===== Menu Mobile =====
@@ -23,11 +23,16 @@ if (isLandingPage) {
     const loginBtn = document.getElementById('loginBtn');
     const closeBtn = document.getElementsByClassName('close')[0];
 
-    loginBtn.onclick = () => loginModal.style.display = 'block';
-    closeBtn.onclick = () => loginModal.style.display = 'none';
+    loginBtn.onclick = function () {
+        loginModal.style.display = 'block';
+    };
 
-    window.onclick = (e) => {
-        if (e.target === loginModal) {
+    closeBtn.onclick = function () {
+        loginModal.style.display = 'none';
+    };
+
+    window.onclick = function (event) {
+        if (event.target === loginModal) {
             loginModal.style.display = 'none';
         }
     };
@@ -73,7 +78,9 @@ if (isLandingPage) {
 
     function startChat() {
         appendMessage('bot', "Olá! Vamos fazer seu cadastro. 😊");
-        setTimeout(() => appendMessage('bot', perguntas[etapa]), 600);
+        setTimeout(() => {
+            appendMessage('bot', perguntas[etapa]);
+        }, 600);
     }
 
     window.sendMessage = function () {
@@ -98,7 +105,9 @@ if (isLandingPage) {
         etapa++;
 
         if (etapa < perguntas.length) {
-            setTimeout(() => appendMessage('bot', perguntas[etapa]), 500);
+            setTimeout(() => {
+                appendMessage('bot', perguntas[etapa]);
+            }, 500);
         } else {
             salvarLead();
         }
@@ -117,7 +126,7 @@ if (isLandingPage) {
                     appendMessage('bot', "✅ Seus dados foram salvos com sucesso!");
                     gerarBotaoWhatsApp();
                 } else {
-                    appendMessage('bot', "❌ Erro ao salvar seus dados.");
+                    appendMessage('bot', "❌ Erro ao salvar seus dados. Tente novamente mais tarde.");
                 }
             })
             .catch(() => {
@@ -154,7 +163,7 @@ if (isLandingPage) {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    userInput.addEventListener('keypress', (e) => {
+    userInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             sendMessage();
         }
@@ -164,7 +173,7 @@ if (isLandingPage) {
 }
 
 // ==================================================
-// ========= FUNCIONALIDADES DO DASHBOARD ===========
+// ========== FUNCIONALIDADES DO DASHBOARD =========
 // ==================================================
 if (isDashboard) {
     window.logout = function () {
@@ -207,10 +216,10 @@ if (isDashboard) {
         const tbody = document.getElementById('leadsTableBody');
         tbody.innerHTML = '';
 
-        leads.forEach(lead => {
+        leads.forEach((lead, index) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${lead.id}</td>
+                <td>${index + 1}</td>
                 <td>${lead.nome}</td>
                 <td>${lead.telefone}</td>
                 <td>${lead.idade}</td>
@@ -223,11 +232,13 @@ if (isDashboard) {
     }
 
     function atualizarCards(leads) {
-        const totalLeads = leads.length;
+        const totalChat = leads.length;
+        const totalTelefone = leads.filter(lead => lead.telefone).length;
+        const totalForm = leads.length;
 
-        document.getElementById('chatCount').textContent = totalLeads;
-        document.getElementById('phoneCount').textContent = totalLeads;
-        document.getElementById('formCount').textContent = totalLeads;
+        document.getElementById('chatCount').textContent = totalChat;
+        document.getElementById('phoneCount').textContent = totalTelefone;
+        document.getElementById('formCount').textContent = totalForm;
     }
 
     function gerarGrafico(leads) {
@@ -240,7 +251,10 @@ if (isDashboard) {
         const data = Object.values(cidades);
 
         const ctx = document.getElementById('leadsChart').getContext('2d');
-        if (window.leadsChart) window.leadsChart.destroy();
+
+        if (window.leadsChart instanceof Chart) {
+            window.leadsChart.destroy();
+        }
 
         window.leadsChart = new Chart(ctx, {
             type: 'bar',
