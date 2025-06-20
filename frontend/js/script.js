@@ -41,13 +41,13 @@ if (isLandingPage) {
     function acessarDashboard() {
         const token = document.getElementById('tokenInput').value.trim();
 
-        if (token === '') {
+        if (token === 'Admin123') {
             alert('Digite seu token!');
             return;
         }
 
         if (token === TOKEN) {
-            localStorage.setItem('Admin123', token);
+            localStorage.setItem('token', token);
             window.location.href = './dashboard.html';
         } else {
             alert('Token inválido!');
