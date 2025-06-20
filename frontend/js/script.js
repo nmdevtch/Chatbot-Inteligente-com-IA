@@ -1,4 +1,6 @@
+// ========================
 // ===== Menu Mobile =====
+// ========================
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('nav-menu');
 
@@ -6,26 +8,25 @@ menuToggle.addEventListener('click', () => {
     navMenu.classList.toggle('show');
 });
 
-// ===== Modal Login =====
+// ==========================
+// ===== Modal Login ========
+// ==========================
 const loginModal = document.getElementById('loginModal');
 const loginBtn = document.getElementById('loginBtn');
 const closeBtn = document.getElementsByClassName('close')[0];
 
-loginBtn.onclick = function() {
-    loginModal.style.display = 'block';
-};
+loginBtn.onclick = () => loginModal.style.display = 'block';
+closeBtn.onclick = () => loginModal.style.display = 'none';
 
-closeBtn.onclick = function() {
-    loginModal.style.display = 'none';
-};
-
-window.onclick = function(event) {
+window.onclick = (event) => {
     if (event.target === loginModal) {
         loginModal.style.display = 'none';
     }
 };
 
+// =======================================
 // ===== Acessar Dashboard com Token =====
+// =======================================
 function acessarDashboard() {
     const token = document.getElementById('tokenInput').value.trim();
 
@@ -34,14 +35,16 @@ function acessarDashboard() {
         return;
     }
 
-    if (token === 'Admin123') { 
+    if (token === 'Admin123') { // Token configurado no backend
         window.location.href = './dashboard.html';
     } else {
         alert('Token inválido!');
     }
 }
 
-// ===== Chatbot com Captação de Leads =====
+// ========================================
+// ======== Chatbot com Captação =========
+// ========================================
 const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
 
 const chatBox = document.getElementById('chat-box');
@@ -65,13 +68,15 @@ const perguntas = [
 
 let etapa = 0;
 
+// Início da Conversa
 function startChat() {
     appendMessage('bot', "Olá! Vamos fazer seu cadastro. 😊");
     setTimeout(() => {
         appendMessage('bot', perguntas[etapa]);
-    }, 600);
+    }, 500);
 }
 
+// Enviar mensagem
 function sendMessage() {
     const message = userInput.value.trim();
     if (message === '') return;
@@ -82,6 +87,7 @@ function sendMessage() {
     processarEtapa(message);
 }
 
+// Processar cada etapa do formulário no chat
 function processarEtapa(message) {
     switch (etapa) {
         case 0:
@@ -112,6 +118,7 @@ function processarEtapa(message) {
     }
 }
 
+// Salvar lead na API
 function salvarLead() {
     appendMessage('bot', "Perfeito! Salvando seus dados... 🔄");
 
@@ -135,16 +142,17 @@ function salvarLead() {
     });
 }
 
+// Gerar link para WhatsApp
 function gerarLinkWhatsApp() {
     const numero = leadData.telefone.replace(/\D/g, '');
     const mensagem = `Olá, me chamo ${leadData.nome} e acabei de me cadastrar no Lead Master!`;
-
     const link = `https://wa.me/5541984842781`;
 
     appendMessage('bot', `Clique no link para falar conosco no WhatsApp:`);
     appendMessage('bot', link);
 }
 
+// Adicionar mensagem ao chat
 function appendMessage(sender, text) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender);
@@ -153,12 +161,60 @@ function appendMessage(sender, text) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// ===== Enter para enviar no chat =====
+// Enviar com Enter
 userInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         sendMessage();
     }
 });
 
-// ===== Inicia Conversa =====
+// Iniciar conversa
 startChat();
+
+// ====================================================
+// ============ Buscar Leads no Dashboard ============
+// ====================================================
+function buscarLeads() {
+    const token = prompt("Digite seu token de acesso:");
+
+    if (!token) {
+        alert("Token é obrigatório!");
+        return;
+    }
+
+    fetch(`${API_URL}/leads`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Token inválido ou erro na requisição');
+        return res.json();
+    })
+    .then(leads => {
+        const tbody = document.getElementById('leadsTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        leads.forEach(lead => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${lead.id}</td>
+                <td>${lead.nome}</td>
+                <td>${lead.telefone}</td>
+                <td>${lead.idade}</td>
+                <td>${lead.email}</td>
+                <td>${lead.cidade}</td>
+                <td>${new Date(lead.datahora).toLocaleString()}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    })
+    .catch(err => {
+        alert("Erro ao buscar leads: " + err.message);
+        console.error(err);
+    });
+}
