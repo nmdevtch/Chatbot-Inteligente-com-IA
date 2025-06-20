@@ -47,7 +47,7 @@ if (isLandingPage) {
         }
 
         if (token === TOKEN) {
-            localStorage.setItem('token', token);
+            localStorage.setItem('Admin123', token);
             window.location.href = './dashboard.html';
         } else {
             alert('Token inválido!');
