@@ -303,4 +303,22 @@ footer {
   .hero-content p {
     font-size: 1rem;
   }
+
+  /* Botão WhatsApp no chat */
+.whatsapp-button {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 8px;
+    transition: background-color 0.3s;
+}
+
+.whatsapp-button:hover {
+    background-color: #1ebd5f;
+}
+
 }
