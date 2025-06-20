@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Leads</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Leads Master</title>
+  <link rel="stylesheet" href="./css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h2>Lead<br><span>Masters</span></h2>
-        </div>
-        <nav>
-            <a href="#">📊 Dashboard</a>
-            <a href="#">📥 Leads</a>
-            <a href="#">⚙️ Configurações</a>
-            <a href="#">🚪 Sair</a>
-        </nav>
-    </aside>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <h2>Chatbot-Inteligente<br><span>com IA</span></h2>
+    </div>
+    <nav>
+      <a href="#">📊 Dashboard</a>
+      <a href="#">📥 Leads</a>
+      <a href="#">⚙️ Configurações</a>
+      <a href="#">🚪 Sair</a>
+    </nav>
+  </aside>
 
-    <!-- Main -->
-    <main class="main-content">
-        <!-- Header -->
-        <header class="header">
-            <h1>Dashboard de Leads</h1>
-            <button class="logout-btn">Sair</button>
-        </header>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <h1>Dashboard de Leads</h1>
+      <button class="logout-btn">Sair</button>
+    </header>
 
-        <!-- Gráfico -->
-        <section class="graph">
-            <h2>Relatório de Leads</h2>
-            <div class="chart-container">
-                <canvas id="leadsChart"></canvas>
-            </div>
-        </section>
+    <!-- Gráfico -->
+    <section class="graph">
+      <h2>Relatório de Leads</h2>
+      <div class="chart-container">
+        <canvas id="leadsChart"></canvas>
+      </div>
+    </section>
 
-        <!-- Cards -->
-        <section class="cards">
-            <div class="card">
-                <h3>Chat / SMS Leads</h3>
-                <p id="chatCount">0</p>
-            </div>
-            <div class="card">
-                <h3>Telefone Leads</h3>
-                <p id="phoneCount">0</p>
-            </div>
-            <div class="card">
-                <h3>Formulário Leads</h3>
-                <p id="formCount">0</p>
-            </div>
-        </section>
+    <!-- Cards -->
+    <section class="cards">
+      <div class="card">
+        <h3>Chat / SMS Leads</h3>
+        <p id="chatCount">0</p>
+      </div>
+      <div class="card">
+        <h3>Telefone Leads</h3>
+        <p id="phoneCount">0</p>
+      </div>
+      <div class="card">
+        <h3>Formulário Leads</h3>
+        <p id="formCount">0</p>
+      </div>
+    </section>
 
-        <!-- Tabela -->
-        <section class="table-section">
-            <h2>Leads Cadastrados</h2>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Telefone</th>
-                            <th>Idade</th>
-                            <th>Email</th>
-                            <th>Cidade</th>
-                            <th>Data/Hora</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leadsTableBody">
-                        <!-- Dados dinâmicos inseridos via JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+    <!-- Tabela -->
+    <section class="table-section">
+      <h2>Leads Cadastrados</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Idade</th>
+              <th>Email</th>
+              <th>Cidade</th>
+              <th>Data/Hora</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <!-- Linhas inseridas via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-    <script src="./js/script.js"></script>
+  <script src="./js/script.js"></script>
 </body>
 </html>
