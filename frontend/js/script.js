@@ -1,6 +1,6 @@
 // ===== Configurações Gerais =====
 const API_URL = "https://chatbot-inteligente-com-ia.onrender.com";
-const TOKEN = "admin123";
+const TOKEN = "Admin123";
 
 // Detecta se está na landing page ou dashboard
 const isDashboard = document.querySelector('.main-content') !== null;
